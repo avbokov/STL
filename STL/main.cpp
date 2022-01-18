@@ -10,6 +10,7 @@ using std::endl;
 
 //#define STL_ARRAY
 #define STL_VECTOR
+//#define HOMEWORK
 
 void main()
 {
@@ -58,6 +59,47 @@ void main()
 	cout << "Size: " << vec.size() << endl;
 	cout << "Capacity: " << vec.capacity() << endl;
 	cout << "MaxSize: " << vec.max_size() << endl;
+
+#ifdef HOMEWORK
+	int value, index;
+	cout << "Введите добавляемый элемент: "; cin >> value;
+	cout << "Введите индекс добавляемого элемента: "; cin >> index;
+	if (index > vec.size())
+	{
+		cout << "Вы вышли за пределы массива!";
+		return;
+	}
+
+	vec.insert(vec.begin() + index, value);
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		cout << vec[i] << tab;
+	}
+	cout << endl;
+	cout << "Size: " << vec.size() << endl;
+	cout << "Capacity: " << vec.capacity() << endl;
+
+	cout << "Введите индекс удаляемого элемента: "; cin >> index;
+
+	if (index >= vec.size())
+	{
+		cout << "Вы вышли за пределы массива!";
+		return;
+	}
+
+	vec.erase(vec.begin() + index);
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		cout << vec[i] << tab;
+	}
+	cout << endl;
+	cout << "Size: " << vec.size() << endl;
+	cout << "Capacity: " << vec.capacity() << endl;
+#endif // HOMEWORK
+
+
 
 	/*std::vector<double> d_vec;
 	cout << "Size: " << d_vec.size() << endl;
