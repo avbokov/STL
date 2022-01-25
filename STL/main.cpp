@@ -216,7 +216,7 @@ void main()
 	list.insert(position, value);
 
 	for (int i : list)cout << i << tab; cout << endl;
-
+	 
 #endif // STL_LIST
 
 
