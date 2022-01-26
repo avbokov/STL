@@ -211,9 +211,9 @@ void main()
 		std::advance(position, index);
 		list.insert(position, value);
 	}
-	else cout << "Error: "
+	else cout << "Error: out of range\n";
 	//list.insert(list.begin() + index, value); // так не работает, как с массивами
-	list.insert(position, value);
+	
 
 	for (int i : list)cout << i << tab; cout << endl;
 	 
