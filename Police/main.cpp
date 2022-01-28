@@ -15,6 +15,7 @@ using std::endl;
 
 void print(const std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list<Crime>>& base);
+void load(std::map<std::string, std::list<Crime>>& base);
 int select_crime();
 
 void main()
@@ -22,13 +23,14 @@ void main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	std::map<std::string, std::list<Crime>> base =
+	std::map<std::string, std::list<Crime>> base /*=
 	{
 		std::pair<std::string, std::list<Crime>>("m777ok",{Crime(1, "ул. Ленина"), Crime(2, "ул. Ленина"), Crime(8, "Перекрёсток Ленина и Октябрьской")}),
 		std::pair<std::string, std::list<Crime>>("a666bb",{Crime(3,"ул. Фрунзе"), Crime(2,"ул. Фрунзе")}),
 		std::pair<std::string, std::list<Crime>>("a123ab",{Crime(5,"ТЦ Экватор")}),
 		std::pair<std::string, std::list<Crime>>("b555aa",{Crime(7,"ул. Парижской Коммуны")}),
-	};
+	}*/;
+	load(base);
 	print(base);
 	//save(base);
 
@@ -41,8 +43,8 @@ void main()
 
 	base[lincence_plate].push_back(crime);*/
 
-	print(base);
-	save(base);
+	//print(base);
+	//save(base);
 }
 
 void print(const std::map<std::string, std::list<Crime>>& base)
@@ -78,6 +80,47 @@ void save(const std::map<std::string, std::list<Crime>>& base)
 	system("start notepad base.txt");
 
 }
+
+void load(std::map<std::string, std::list<Crime>>& base)
+{
+	std::ifstream fin("base.txt");
+	if (fin.is_open())
+	{
+		std::string licence_plate;
+		std::string all_crimes;
+		while (!fin.eof())
+		{
+			std::getline(fin, licence_plate, ':');
+			std:getline(fin, all_crimes);
+			if (licence_plate.empty())break;
+			all_crimes.erase(0,all_crimes.find_first_not_of(' '));
+			all_crimes.erase(all_crimes.find(';'), all_crimes.size());
+			if (all_crimes.find(',') == std::string::npos)
+			{
+				int crime_id = std::stoi(all_crimes);
+				std::string crime = all_crimes.erase(0, 1);
+				base[licence_plate].push_back(Crime(crime_id, crime));
+				//base[licence_plate].push_back(Crime(std::stoi(all_crimes), all_crimes.erase(0 ,1)));
+			}
+			else for (size_t start = -1, end = 0; all_crimes.find(',', end) !=std::string::npos; start = end)
+			{
+				end = all_crimes.find(',', start+1);
+				std::string crime = all_crimes.substr(start + 1, end - start);
+				crime.erase(0, crime.find_first_not_of(' '));
+				if (crime.find(',') != std::string::npos)crime.erase(crime.find_last_of(','), crime.size());
+				int crime_id = std::stoi(crime);
+				std::string place = crime.erase(0, 1);
+				base[licence_plate].push_back(Crime(crime_id, place));
+			}
+		}
+		fin.close();
+	}
+	else
+	{
+		std::cerr << "File not found" << endl;
+	}
+}
+
 
 int select_crime()
 {
