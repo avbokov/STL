@@ -93,12 +93,6 @@ void load(std::map<std::string, std::list<Crime>>& base)
 		while (!fin.eof())
 		{
 			std::getline(fin, licence_plate, ':');
-			Crime crime;
-			fin >> crime;
-#ifdef DEBUG
-
-#endif // DEBUG
-
 			std:getline(fin, all_crimes);
 			if (licence_plate.empty())break;
 			/*all_crimes.erase(0, all_crimes.find_first_not_of(' '));
