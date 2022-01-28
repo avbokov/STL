@@ -42,9 +42,17 @@ public:
 		std::getline(is, place);
 		return is;
 	}
+
+	std::ifstream& scan(std::ifstream& is)
+	{
+		is >> crime_id;
+		std::getline(is, place, ',');
+		return is;
+	}
 };
 
 std::ostream& operator<<(std::ostream& os, const Crime& obj);
 std::ofstream& operator<<(std::ofstream& os, const Crime& obj);
-std::istream& getline(std::istream& is, Crime& obj);
 std::istream& operator>>(std::istream& is, Crime& obj);
+std::ifstream& operator>>(std::ifstream& is, Crime& obj);
+std::istream& getline(std::istream& is, Crime& obj);
